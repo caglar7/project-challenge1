@@ -14,12 +14,23 @@ public enum PieceState
 
 public class GridPiece : MonoBehaviour
 {
+    public GameObject cross;
     private PieceState state;
 
-    public void Init()
+    private void Start()
     {
-        // empty sprite remove cross
-        // init any data there is
+        RemoveCross();
+    }
+    public void ShowCross()
+    {
+        cross.SetActive(true);
+        state = PieceState.cross;
+    }
+
+    public void RemoveCross()
+    {
+        cross.SetActive(false);
+        state = PieceState.empty;
     }
 
     public PieceState GetState()

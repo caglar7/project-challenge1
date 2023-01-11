@@ -1,12 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class InputHandle : MonoBehaviour, IPointerDownHandler
+/// <summary>
+/// on mouse down, show cross
+/// </summary>
+
+public class InputHandle : MonoBehaviour
 {
-    public void OnPointerDown(PointerEventData eventData)
+    GridPiece gridPiece;
+
+    private void Awake()
     {
-        
+        gridPiece = GetComponent<GridPiece>();
     }
+
+    private void OnMouseDown()
+    {
+        if (gridPiece) gridPiece.ShowCross();
+    }
+
 }

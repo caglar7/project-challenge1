@@ -52,7 +52,7 @@ public class Grid : MonoBehaviour
     }
 
     /// <summary>
-    /// finding grid width in world place
+    /// finding grid width in world space
     /// </summary>
     private void Init()
     {

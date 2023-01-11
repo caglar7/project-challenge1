@@ -167,7 +167,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPiece: {fileID: 4526894253812046278, guid: 0d01505f90bf96b41aabb271ee909387, type: 3}
-  gridPiecePool: {fileID: 0}
 --- !u!1 &216942112
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +177,6 @@ GameObject:
   m_Component:
   - component: {fileID: 216942113}
   - component: {fileID: 216942114}
-  - component: {fileID: 216942115}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -213,18 +211,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   n: 5
---- !u!114 &216942115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 216942112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c42c1f12e8e566049a7bed6b17eb0d03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
