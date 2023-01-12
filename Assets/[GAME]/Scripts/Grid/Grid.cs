@@ -94,7 +94,7 @@ public class Grid : MonoBehaviour
     {
         listCross.Add(piece);
         AssignNeighbors(piece);
-        //RemoveMatching();
+        RemoveMatching();
     }
 
     /// <summary>
@@ -121,9 +121,13 @@ public class Grid : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// scan through the cross list and check for items
+    /// that have 2 or more neighbors, add these in a collection
+    /// remove the cross in collection items
+    /// </summary>
     private void RemoveMatching()
     {
-        // add matching pieces to a list
         List<GridPiece> listMatching = new List<GridPiece>();
 
         foreach(GridPiece cross in listCross)
@@ -137,20 +141,11 @@ public class Grid : MonoBehaviour
                 }
             }
         }
-            
-        //// tesing
-        //foreach(GridPiece g in listMatching)
-        //{
-        //    Debug.Log("x y: " + "( " + g.x + ", " + g.y);
-        //}
 
-        // if any object in matching list, exe the below
-
-        // remove them from list cross
-        
-
-        // hide cross method
-
-        // maybe effect later on
+        foreach(GridPiece match in listMatching)
+        {
+            match.RemoveCross();
+            listCross.Remove(match);
+        }
     }
 }

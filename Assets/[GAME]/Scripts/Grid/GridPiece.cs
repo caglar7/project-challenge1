@@ -14,11 +14,10 @@ public enum PieceState
 
 public class GridPiece : MonoBehaviour
 {
-    public GameObject cross;
-
+    [SerializeField] private GameObject cross;
     [HideInInspector] public int x, y;
-    public List<GridPiece> listNeighbors = new List<GridPiece>();
     private PieceState state;
+    private List<GridPiece> listNeighbors = new List<GridPiece>();
 
     /// <summary>
     /// init method on generation
