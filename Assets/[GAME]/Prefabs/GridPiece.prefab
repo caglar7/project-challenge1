@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 4526894253812046279}
   - component: {fileID: 4526894253812046281}
   - component: {fileID: 4814668453752167738}
+  - component: {fileID: -5188198648062844153}
   m_Layer: 0
   m_Name: GridPiece
   m_TagString: Untagged
@@ -184,7 +185,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 81f1ebfc62991f545a2c3a3d94e2b1f8, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.68235296}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.84705883}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -207,6 +208,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cross: {fileID: 4526894253119410768}
+  x: 0
+  y: 0
 --- !u!114 &4814668453752167738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,3 +222,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c42c1f12e8e566049a7bed6b17eb0d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5188198648062844153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4526894253812046278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a39c482f339cf1c4b9397f920245fe73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pressedColor: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 0.68235296}
