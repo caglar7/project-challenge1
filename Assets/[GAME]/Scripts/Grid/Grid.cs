@@ -13,13 +13,16 @@ public class Grid : MonoBehaviour
     [Range(1, 10)] [SerializeField] int n = 1;
     //[Tooltip("distance to edges")] [SerializeField] float margin = .1f;
 
+    [Header("Parameters")]
     Vector3 upperLeft;
     float gridSize;
     GridPiece[,] gridPieces;
+    List<GridPiece> listCross = new List<GridPiece>();
 
     private void Start()
     {
         GenerateGrid(n);
+        EventManager.CheckMatch += CheckMatch;
     }
 
     /// <summary>
@@ -29,13 +32,16 @@ public class Grid : MonoBehaviour
     /// width is taken as the edge of the square play area
     /// 
     /// </summary>
-    private void GenerateGrid(int n)
+    private void GenerateGrid(int _n)
     {
         Init();
         ClearGrid();
+        n = _n;
+        gridPieces = new GridPiece[n, n];
+        listCross.Clear();
+
         float cellSize = gridSize / n;
         transform.position = Vector3.zero;
-        gridPieces = new GridPiece[n, n];
         upperLeft += new Vector3(cellSize / 2f, -cellSize / 2f, 0f);
 
         for (int x = 0; x < n; x++)
@@ -45,8 +51,11 @@ public class Grid : MonoBehaviour
                 GameObject clone = PoolManager.Instance.gridPiecePool.PullObjFromPool();
                 clone.transform.position = upperLeft + new Vector3(x * cellSize, -y * cellSize, 0f);
                 clone.transform.SetParent(transform);
+                clone.transform.name = x.ToString() + y.ToString();
 
-                gridPieces[x, y] = clone.GetComponent<GridPiece>();
+                GridPiece g = clone.GetComponent<GridPiece>();
+                g.Init(x, y);
+                gridPieces[x, y] = g;
             }
         }
     }
@@ -76,5 +85,72 @@ public class Grid : MonoBehaviour
                 PoolManager.Instance.gridPiecePool.AddObjToPool(gridPieces[x, y].gameObject);
             }
         }
+    }
+
+    /// <summary>
+    /// add neighbors to grid pieces if there is any
+    /// </summary>
+    private void CheckMatch(GridPiece piece)
+    {
+        listCross.Add(piece);
+        AssignNeighbors(piece);
+        //RemoveMatching();
+    }
+
+    /// <summary>
+    /// checking right, left, up and down position
+    /// if there is a cross,
+    /// clamping values so there won't be any -1 or out of index
+    /// </summary>
+    /// <param name="refPiece"></param>
+    private void AssignNeighbors(GridPiece refPiece)
+    {
+        List<GridPiece> possibleNeighbors = new List<GridPiece>();
+        possibleNeighbors.Add(gridPieces[ refPiece.x, Mathf.Clamp(refPiece.y - 1, 0, n-1)] );
+        possibleNeighbors.Add(gridPieces[ refPiece.x, Mathf.Clamp(refPiece.y + 1, 0, n-1)] );
+        possibleNeighbors.Add(gridPieces[ Mathf.Clamp(refPiece.x - 1, 0, n-1) , refPiece.y]);
+        possibleNeighbors.Add(gridPieces[ Mathf.Clamp(refPiece.x + 1, 0, n-1) , refPiece.y]);
+
+        foreach(GridPiece g in possibleNeighbors)
+        {
+            if (g != refPiece && g.GetState() == PieceState.cross)
+            {
+                refPiece.AddNeighbor(g);
+                g.AddNeighbor(refPiece);
+            }
+        }
+    }
+
+    private void RemoveMatching()
+    {
+        // add matching pieces to a list
+        List<GridPiece> listMatching = new List<GridPiece>();
+
+        foreach(GridPiece cross in listCross)
+        {
+            if(cross.GetNeighbors().Count >= 2)
+            {
+                if (!listMatching.Contains(cross)) listMatching.Add(cross);
+                foreach (GridPiece neighbor in cross.GetNeighbors())
+                {
+                    if (!listMatching.Contains(neighbor)) listMatching.Add(neighbor);
+                }
+            }
+        }
+            
+        //// tesing
+        //foreach(GridPiece g in listMatching)
+        //{
+        //    Debug.Log("x y: " + "( " + g.x + ", " + g.y);
+        //}
+
+        // if any object in matching list, exe the below
+
+        // remove them from list cross
+        
+
+        // hide cross method
+
+        // maybe effect later on
     }
 }

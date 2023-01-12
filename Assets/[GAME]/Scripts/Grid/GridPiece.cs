@@ -15,22 +15,51 @@ public enum PieceState
 public class GridPiece : MonoBehaviour
 {
     public GameObject cross;
+
+    [HideInInspector] public int x, y;
+    public List<GridPiece> listNeighbors = new List<GridPiece>();
     private PieceState state;
 
-    private void Start()
+    /// <summary>
+    /// init method on generation
+    /// </summary>
+    /// <param name="_x"></param>
+    /// <param name="_y"></param>
+    public void Init(int _x, int _y)
     {
-        RemoveCross();
+        x = _x;
+        y = _y;
+        cross.SetActive(false);
+        state = PieceState.empty;
+        listNeighbors.Clear();
     }
+
+    /// <summary>
+    /// show cross and trigger check event
+    /// </summary>
     public void ShowCross()
     {
+        if (state == PieceState.cross) return;
+        
         cross.SetActive(true);
         state = PieceState.cross;
+
+        EventManager.CheckMatchEvent(this);        
     }
 
     public void RemoveCross()
     {
-        cross.SetActive(false);
-        state = PieceState.empty;
+        Init(x, y);
+    }
+
+    public void AddNeighbor(GridPiece value)
+    {
+        if (!listNeighbors.Contains(value)) listNeighbors.Add(value);
+    }
+
+    public List<GridPiece> GetNeighbors()
+    {
+        return listNeighbors;
     }
 
     public PieceState GetState()
