@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
-    #region Parameters
+    #region Properties
 
     [Header("Grid Settings")]
     [Range(1, 10)] [SerializeField] int n = 1;
@@ -19,14 +19,16 @@ public class Grid : MonoBehaviour
     Vector3 upperLeft;
     float gridSize;
     GridPiece[,] gridPieces;
-    List<GridPiece> listCross = new List<GridPiece>(); 
+    List<GridPiece> listCross = new List<GridPiece>();
+    int inputFieldN = 0;
     #endregion
 
     #region Start
     private void Start()
     {
-        GenerateGrid(n);
         EventManager.CheckMatch += CheckMatch;
+        EventManager.RebuildGrid += GenerateAfterInput;
+        GenerateGrid(n);
     } 
     #endregion
 
@@ -144,6 +146,8 @@ public class Grid : MonoBehaviour
     /// scan through the cross list and check for items
     /// that have 2 or more neighbors, add these in a collection
     /// remove the cross in collection items
+    /// 
+    /// trigger the event when there is match
     /// </summary>
     private void RemoveMatching()
     {
@@ -166,7 +170,28 @@ public class Grid : MonoBehaviour
             match.RemoveCross();
             listCross.Remove(match);
         }
-    } 
+
+        if (listMatching.Count > 0) EventManager.MatchFoundEvent();
+    }
+    #endregion
+
+    #region UI Input
+
+    /// <summary>
+    /// rebuild button trigger
+    /// </summary>
+    private void GenerateAfterInput()
+    {
+        string inputString = InputField.instance.field.text;
+
+        if (int.TryParse(inputString, out int n))
+        {
+            if (n > 0 && n <= 15) GenerateGrid(n);
+            else Debug.LogWarning("Value is too negative or too large!");
+        }
+        else Debug.LogWarning("Invalid input");
+    }
+
     #endregion
 
     #region Init
